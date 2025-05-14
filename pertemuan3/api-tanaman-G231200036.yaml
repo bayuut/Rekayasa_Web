@@ -1,0 +1,151 @@
+openapi: "3.0.2"
+info:
+  title: API Tanaman Hutan Edukasi
+  description: Dokumentasi API Tanaman Hutan Edukasi
+  version: "1.0"
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: bayuutomo.usm@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: http://localhost/json/server
+tags:
+  - name: Token
+    description: Endpoint untuk mendapatkan token dengan akun login (username dan password) dan mengambil token dari tabel username
+  - name: CRUD
+    description: Endpoint untuk API CRUD dan Tanaman Hutan Edukasi dengan Autorisasi token JWT
+paths:
+  /tanaman:
+    get:
+      tags:
+        - CRUD
+      description: Endpoint API untuk mengambil semua data tanaman
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tanaman"
+    post:
+      tags:
+        - CRUD
+      description: Endpoint API untuk tambah data tanaman
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/insertTanaman"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/insertTanaman"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/insertTanaman"
+      responses:
+        "200":
+          description: Sukses
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tanaman"
+  /tanaman/{id}:
+    get:
+      tags:
+        - CRUD
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id_tanaman
+          schema:
+            type: string
+            format: int64
+      description: Endpoint API untuk mengambil data Tanaman tertentu sesuai ID
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tanaman"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Tanaman"
+    put:
+      tags:
+        - CRUD
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id_tanaman
+          schema:
+            type: integer
+            format: int64
+      description: update data terbaru
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/insertTanaman"
+      responses:
+        "200":
+          description: OK, Sukses
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tanaman"
+    delete:
+      tags:
+        - CRUD
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: id_tanaman
+          schema:
+            type: integer
+            format: int64
+      description: Hapus data tertentu
+      responses:
+        "200":
+          description: OK, Sukses
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tanaman"
+components:
+  schemas:
+    Tanaman:
+      type: object
+      properties:
+        id_tanaman:
+          type: integer
+          format: int64
+          example: 1
+        nama_tanaman:
+          type: string
+          example: Jati
+        nama_latin:
+          type: string
+          example: Tectona grandis
+        wilayah_tanam:
+          type: string
+          example: sektor 1
+    insertTanaman:
+      type: object
+      properties:
+        nama_tanaman:
+          type: string
+          example: Jati
+        nama_latin:
+          type: string
+          example: Tectona grandis
+        wilayah_tanam:
+          type: string
+          example: sektor 1
